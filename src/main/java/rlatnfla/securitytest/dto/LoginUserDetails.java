@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @RequiredArgsConstructor
 public class LoginUserDetails implements UserDetails {
 
-    private final String email;
+    private final String username;
     private final String password;
 
     @Override
@@ -44,6 +44,6 @@ public class LoginUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.username;
     }
 }

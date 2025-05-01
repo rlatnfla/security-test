@@ -15,9 +15,9 @@ public class LoginUserDetailsService implements UserDetailsService {
     private final MemberRepository memberRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return memberRepository.getMemberByEmail(email)
-            .map(member -> new LoginUserDetails(member.getEmail(), member.getPassword()))
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return memberRepository.getMemberByUsername(username)
+            .map(member -> new LoginUserDetails(member.getUsername(), member.getPassword()))
             .orElseThrow(() -> new UsernameNotFoundException("user is not exist"));
     }
 }

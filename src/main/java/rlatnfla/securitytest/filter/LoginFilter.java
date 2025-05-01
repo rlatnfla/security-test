@@ -32,14 +32,21 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request,
-        HttpServletResponse response) throws AuthenticationException{
+    protected void unsuccessfulAuthentication(HttpServletRequest request,
+        HttpServletResponse response, AuthenticationException failed)
+        throws IOException, ServletException {
+        log.info("authenticate failed");
+    }
 
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest request,
+        HttpServletResponse response) throws AuthenticationException {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            LoginRequest loginRequest = objectMapper.readValue(request.getReader(), LoginRequest.class);
+            LoginRequest loginRequest = objectMapper.readValue(request.getReader(),
+                LoginRequest.class);
 
-            String principal = loginRequest.getEmail();
+            String principal = loginRequest.getUsername();
             String credential = loginRequest.getPassword();
 
             UsernamePasswordAuthenticationToken token =
@@ -48,7 +55,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
             return authenticationManager.authenticate(token);
         } catch (Exception e) {
             log.error("authentication failed: ", e);
-            throw new AuthenticationException("unable to process authenticate", e) {};
+            throw new AuthenticationException("unable to process authenticate", e) {
+            };
         }
     }
 }

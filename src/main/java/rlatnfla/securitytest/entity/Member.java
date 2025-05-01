@@ -18,12 +18,12 @@ public class Member {
     @GeneratedValue
     private Long id;
 
-    private String email;
+    private String username;
 
     private String password;
 
     private Member(SignupRequest request) {
-        this.email = request.getEmail();
+        this.username = request.getUsername();
         this.password = request.getPassword();
     }
 
